@@ -11,5 +11,9 @@
     "testing": {
         "config_id": "testing",
         "mongoURI": "mongodb+srv://ndanev:hardwell123@cluster0.p5jpj.mongodb.net/jobs-test?retryWrites=true&w=majority"
+    },
+    "ci": {
+        "config_id": "ci",
+        "mongoURI": "mongodb+srv://ndanev:hardwell123@cluster0.p5jpj.mongodb.net/jobs-test?retryWrites=true&w=majority"
     }
 }
