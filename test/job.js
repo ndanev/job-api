@@ -19,7 +19,6 @@ describe('Testing Jobs API', () => {
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('array');
-                    // response.body.length.should.be.eq(0);
                     numberOfJobs = response.body.length;
                     console.log("Number of Jobs:", numberOfJobs);
                     done();
@@ -57,7 +56,7 @@ describe('Testing Jobs API', () => {
 
     // GET all current jobs 
     describe("GET /api/jobs/get-jobs", () => {
-        it(`There should be ${numberOfJobs + 1} jobs.`, (done) => {
+        it("There should be added one more job.", (done) => {
             chai.request(server)
                 .get('/api/jobs/get-jobs')
                 .end((err, response) => {
@@ -66,7 +65,7 @@ describe('Testing Jobs API', () => {
                     response.body.length.should.be.eq(numberOfJobs + 1);
                     done();
                 });
-        })
+        });
     });
 
 });

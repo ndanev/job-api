@@ -1,10 +1,8 @@
 
 //SEE: https://codeburst.io/node-js-best-practices-smarter-ways-to-manage-config-files-and-variables-893eef56cbef
 
-const dotenv = require('dotenv')
+require('dotenv').config()
 const _ = require('lodash');
-
-dotenv.config();
 
 // module variables
 const config = require('./config.json');
