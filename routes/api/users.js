@@ -3,9 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const key = require('../../config/keys').secret;
-const ourContactEmail = require('../../config/keys').ourContactEmail;
-const ourContactPass = require('../../config/keys').ourContactPass;
+const key = global.gConfig.secret;
+// const ourContactEmail = require('../../config/keys').ourContactEmail;
+// const ourContactPass = require('../../config/keys').ourContactPass;
 const User = require('../../models/User');
 
 
@@ -46,7 +46,7 @@ router.post('/register', (req, res) => {
         email
     });
 
-    /* Hash the password */
+    /* Hash the password & save user in database */
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
@@ -55,8 +55,14 @@ router.post('/register', (req, res) => {
                 return res.status(201).json({
                     success: true,
                     msg: "User is now registerd."
+                }).catch(error => {
+                    // TODO - handle database error
+                    console.log(error);
+                    return res.status(404).json({
+                        success: false,
+                        msg: "Something went wrong."
+                    })
                 })
-                // TODO - handle database error
             });
         });
     });
@@ -114,44 +120,44 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), async (
 });
 
 // Send Contact Email
-router.post("/contact", async (req, res) => {
-    try {
-        let output = `
-            YOU HAVE A NEW CONTACT REQUEST!
-            ---------------------------------------------------------
-            Contact Details
-            ---------------------
-            Name: ${req.body.name}
-            Email: ${req.body.email}
-            Message:
-            ${req.body.textMessage}
-        `;
+// router.post("/contact", async (req, res) => {
+//     try {
+//         let output = `
+//             YOU HAVE A NEW CONTACT REQUEST!
+//             ---------------------------------------------------------
+//             Contact Details
+//             ---------------------
+//             Name: ${req.body.name}
+//             Email: ${req.body.email}
+//             Message:
+//             ${req.body.textMessage}
+//         `;
 
-        const transporter = await nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: ourContactEmail,
-                pass: ourContactPass
-            }
-        });
+//         const transporter = await nodemailer.createTransport({
+//             service: "gmail",
+//             auth: {
+//                 user: ourContactEmail,
+//                 pass: ourContactPass
+//             }
+//         });
 
-        let mailOption = {
-            from: req.body.email,
-            to: "nemanja.danev.93@gmail.com",
-            text: output
-        };
+//         let mailOption = {
+//             from: req.body.email,
+//             to: "nemanja.danev.93@gmail.com",
+//             text: output
+//         };
 
-        await transporter.sendMail(mailOption, (error, info) => {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log("Email sent: " + info.response);
-            }
-        });
+//         await transporter.sendMail(mailOption, (error, info) => {
+//             if (error) {
+//                 console.log(error);
+//             } else {
+//                 console.log("Email sent: " + info.response);
+//             }
+//         });
 
-    } catch (error) {
-        console.log(error)
-    }
-});
+//     } catch (error) {
+//         console.log(error)
+//     }
+// });
 
 module.exports = router;

@@ -1,9 +1,10 @@
+const config = require('./config/config.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const mongoURI = require('./config/keys').mongoURI;
+const mongoURI = global.gConfig.mongoURI;
 
 const app = express();
 
@@ -20,8 +21,10 @@ app.use('/api/jobs', jobs);
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(response => { console.log('MongoDB has been connected...') })
-    .catch(error => { console.log(error, 'MongoDB error conncetion...') })
+    .catch(error => { console.log(error, 'MongoDB error conncetion...') });
+
 
 const port = process.env.PORT || 5001;
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+module.exports = app.listen(port, () => console.log(`Server started on port ${port}`));
+
