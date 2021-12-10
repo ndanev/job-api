@@ -19,4 +19,3 @@ describe("GET /api/jobs/get-jobs", () => {
             });
     })
 });
-
