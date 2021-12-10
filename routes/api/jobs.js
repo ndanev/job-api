@@ -5,7 +5,7 @@ const Job = require('../../models/Job');
 router.post('/create-job', async (req, res) => {
     try {
         const job = await Job.create(req.body);
-        res.send(job);
+        res.status(201).send(job);
     } catch (err) {
         console.log(err);
         res.status(500).send({
