@@ -46,7 +46,7 @@ router.post('/register', (req, res) => {
         email
     });
 
-    /* Hash the password */
+    /* Hash the password & save user in database */
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
@@ -55,8 +55,14 @@ router.post('/register', (req, res) => {
                 return res.status(201).json({
                     success: true,
                     msg: "User is now registerd."
+                }).catch(error => {
+                    // TODO - handle database error
+                    console.log(error);
+                    return res.status(404).json({
+                        success: false,
+                        msg: "Something went wrong."
+                    })
                 })
-                // TODO - handle database error
             });
         });
     });
