@@ -26,5 +26,8 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const port = process.env.PORT || 5001;
 
-module.exports = app.listen(port, () => console.log(`Server started on port ${port}`));
 
+// module.exports = app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(port, () => console.log(`Server started on port ${port}`));
+
+module.exports = app;
