@@ -16,8 +16,8 @@ require('./config/passport')(passport);
 
 const users = require('./routes/api/users');
 const jobs = require('./routes/api/jobs');
-app.use('/api/users', users);
-app.use('/api/jobs', jobs);
+app.use('/api/user', users);
+app.use('/api/job', jobs);
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(response => { console.log('MongoDB has been connected...') })

@@ -21,10 +21,10 @@ before(async () => {
 after(async () => await dbHandler.closeDatabase());
 
 // GET all jobs
-describe("GET /api/jobs/get-jobs", () => {
+describe("GET /api/job", () => {
     it("There should not be any jobs.", (done) => {
         chai.request(server)
-            .get('/api/jobs/get-jobs')
+            .get('/api/job')
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('array');
@@ -51,7 +51,7 @@ describe("Create some jobs", () => {
             "location": "Belgrade"
         }
         chai.request(server)
-            .post('/api/jobs/create-job')
+            .post('/api/job')
             .send(jobBody)
             .end((err, response) => {
                 response.should.have.status(201);
@@ -60,11 +60,11 @@ describe("Create some jobs", () => {
     })
 });
 
-// GET all current jobs 
-describe("GET /api/jobs/get-jobs", () => {
+// GET all current jobs
+describe("GET /api/job", () => {
     it("There should be added one more job.", (done) => {
         chai.request(server)
-            .get('/api/jobs/get-jobs')
+            .get('/api/job')
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('array');
