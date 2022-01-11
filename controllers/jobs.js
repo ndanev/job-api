@@ -40,7 +40,7 @@ const getAll = async (req, res) => {
 
 const getById = async (req, res) => {
     try {
-        const job = await Job.findById(req.params.jobId);
+        const job = await Job.findById(req.params.id);
         res.status(200).send(job);
     } catch (err) {
         console.log(err);
@@ -52,7 +52,7 @@ const getById = async (req, res) => {
 
 const update = async (req, res) => {
     try {
-        await Job.findByIdAndUpdate(req.params.jobId, req.body, { useFindAndModify: false, new: true });
+        await Job.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false, new: true });
         res.send(req.body);
     } catch (err) {
         console.log(err);
