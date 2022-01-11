@@ -1,7 +1,7 @@
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
 
-const create = async (req, res) => {
+const create = async (c, req, res) => {
     try {
         const job = await Job.create(req.body);
         res.status(201).send(job);
@@ -13,7 +13,7 @@ const create = async (req, res) => {
     }
 }
 
-const getAll = async (req, res) => {
+const getAll = async (c, req, res) => {
     try {
         let jobs = null
         const search = req.query.search;
@@ -38,9 +38,9 @@ const getAll = async (req, res) => {
     }
 }
 
-const getById = async (req, res) => {
+const getById = async (c, req, res) => {
     try {
-        const job = await Job.findById(req.params.jobId);
+        const job = await Job.findById(c.request.params.jobId);
         res.status(200).send(job);
     } catch (err) {
         console.log(err);
@@ -50,10 +50,15 @@ const getById = async (req, res) => {
     }
 }
 
-const update = async (req, res) => {
+const update = async (c, req, res) => {
     try {
-        await Job.findByIdAndUpdate(req.params.jobId, req.body, { useFindAndModify: false, new: true });
-        res.send(req.body);
+        await Job.findByIdAndUpdate(c.request.params.jobId, req.body, { useFindAndModify: false, new: true }, (error, data) => {
+            if(error) {
+                res.status(400).send('Bad Request');
+            } else {
+                res.status(200).send(data);
+            }
+        });
     } catch (err) {
         console.log(err);
         res.status(500).send({

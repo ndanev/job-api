@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const key = global.gConfig.secret;
 
-const register = (req, res) => {
+const register = (c, req, res) => {
 
     let { name, username, email, password, confirm_password } = req.body;
 
@@ -29,7 +29,7 @@ const register = (req, res) => {
     User.findOne({ email: email }).then(user => {
         if (user) {
             res.status(400).json({
-                msg: "Email is already registerd."
+                msg: "Email is already used."
             });
         }
     });
@@ -64,7 +64,7 @@ const register = (req, res) => {
     });
 }
 
-const login = (req, res) => {
+const login = (c, req, res) => {
     User.findOne({ username: req.body.username }).then(user => {
         if (!user) {
             res.status(404).json({
@@ -103,7 +103,7 @@ const login = (req, res) => {
     });
 }
 
-const profile = async (req, res) => {
+const profile = async (c, req, res) => {
     try {
         const user = await User.findById(req.user._id);
         res.json({ user })

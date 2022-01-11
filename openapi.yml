@@ -1,0 +1,188 @@
+openapi: 3.0.1
+info:
+  title: 'JOB API'
+  description: Restful API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5001/api
+paths:
+  '/job':
+    get:
+      summary: Returns a list of jobs
+      operationId: getAllJobs
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+        default:
+          description: Unexpected error
+    post:
+      summary: Create a new job
+      operationId: addNewJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+      responses:
+        '201':
+          description: Ok
+        default:
+          description: Unexpected error
+  '/job/{jobId}':
+    get:
+      summary: Returns the single job
+      operationId: getJobsById
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          description: Bad Request
+        default:
+          description: Unexpected error
+    put:
+      summary: Update the single job
+      operationId: updateJobsById
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          description: Bad Request
+        default:
+          description: Unexpected error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  '/user/register':
+    post:
+      summary: Register new user
+      operationId: createUserAccount
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+  '/user/login':
+    post:
+      summary: Login user
+      operationId: loginUser
+      security: [] # no auth needed
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+  '/user/profile':
+    get:
+      summary: Get user profile
+      operationId: userProfile
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+#        date:
+#          type: string
+#          format: date
+    Job:
+      type: object
+      properties:
+        jobTitle:
+          type: string
+        jobType:
+          type: string
+        level:
+          type: string
+        jobDesc:
+          type: string
+        applicationTarget:
+          type: string
+        emailAddress:
+          type: string
+        companyName:
+          type: string
+        companyImageUrl:
+          type: string
+        skills:
+          type: array
+          items:
+            type: string
+        currency:
+          type: string
+        minSalary:
+          type: string
+        maxSalary:
+          type: string
+        location:
+          type: string
+#        date:
+#          type: string
+#          format: date
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - jwtAuth: []
