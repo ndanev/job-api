@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const User = require('../models/User')
 
 const JobSchema = new Schema({
     jobTitle: {
@@ -54,10 +55,10 @@ const JobSchema = new Schema({
         type: String,
         required: true
     },
-    date: {
-        type: Date,
-        default: Date.now
+    user_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
-})
+}, { timestamps: true })
 
 module.exports = Job = mongoose.model('job', JobSchema);
