@@ -3,13 +3,31 @@ const mongoose = require('mongoose');
 
 const create = async (req, res) => {
     try {
-        const job = await Job.create(req.body);
-        res.status(201).send(job);
-    } catch (err) {
-        console.log(err);
-        res.status(500).send({
-            error: "An error has occured trying create the new job."
+        const userId = req.user
+        const { title, type, level, description, target, email, companyName, companyImageUrl, skills, currency, minSalary, maxSalary, location } = req.body;
+        const newJob = new Job({
+            userId,
+            title,
+            type,
+            level,
+            description,
+            target,
+            email,
+            companyName,
+            companyImageUrl,
+            skills,
+            currency,
+            minSalary,
+            maxSalary,
+            location
         })
+        await newJob.save()
+        console.log("newJob", newJob)
+        const jobs = await Job.find().sort({ date: -1 })
+        res.status(201).send(jobs);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({ error: "Internal Server Error" })
     }
 }
 
@@ -19,7 +37,7 @@ const getAll = async (req, res) => {
         const search = req.query.search;
         if (search) {
             jobs = await Job.find({
-                $or: ['location', 'jobType', 'jobTitle', 'level', 'companyName', 'skills'].map(key => ({
+                $or: ['location', 'type', 'title', 'level', 'companyName', 'skills'].map(key => ({
                     [key]: {
                         $regex: ".*" + search + ".*",
                         $options: "-i"
@@ -31,10 +49,8 @@ const getAll = async (req, res) => {
         }
         res.status(200).send(jobs);
     } catch (err) {
-        console.log(err);
-        res.status(500).send({
-            error: "An error has occured trying get the jobs."
-        })
+        console.log(err.message);
+        res.status(500).send({ error: "Internal Server Error" })
     }
 }
 
@@ -43,10 +59,8 @@ const getById = async (req, res) => {
         const job = await Job.findById(req.params.id);
         res.status(200).send(job);
     } catch (err) {
-        console.log(err);
-        res.status(500).send({
-            error: "An error has occured trying get the single job."
-        })
+        console.log(err.message);
+        res.status(500).send({ error: "Internal Server Error" })
     }
 }
 
@@ -55,10 +69,8 @@ const update = async (req, res) => {
         await Job.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false, new: true });
         res.send(req.body);
     } catch (err) {
-        console.log(err);
-        res.status(500).send({
-            error: "An error has occured trying update the job."
-        })
+        console.log(err.message);
+        res.status(500).send({ error: "Internal Server Error" })
     }
 }
 

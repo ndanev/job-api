@@ -108,12 +108,12 @@ const profile = async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
         const userJobs = await Jobs.find({ id: req.user._id })
-        console.log("================= USER =================")
-        console.log("user", user)
-        console.log("================= END USER =================")
-        console.log("================= USER JOBS =================")
-        console.log("userJobs", userJobs)
-        console.log("================= END USER JOBS =================")
+        // console.log("================= USER =================")
+        // console.log("user", user)
+        // console.log("================= END USER =================")
+        // console.log("================= USER JOBS =================")
+        // console.log("userJobs", userJobs)
+        // console.log("================= END USER JOBS =================")
         res.status(200).json({ user })
     } catch (error) {
         console.log(error);

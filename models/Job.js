@@ -3,11 +3,15 @@ const Schema = mongoose.Schema;
 const User = require('../models/User')
 
 const JobSchema = new Schema({
-    jobTitle: {
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    title: {
         type: String,
         required: true
     },
-    jobType: {
+    type: {
         type: String,
         required: true
     },
@@ -15,15 +19,15 @@ const JobSchema = new Schema({
         type: String,
         required: false
     },
-    jobDesc: {
+    description: {
         type: String,
         required: true
     },
-    applicationTarget: {
+    target: {
         type: String,
         required: true
     },
-    emailAddress: {
+    email: {
         type: String,
         required: true
     },
@@ -54,10 +58,6 @@ const JobSchema = new Schema({
     location: {
         type: String,
         required: true
-    },
-    user_id: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
     }
 }, { timestamps: true })
 

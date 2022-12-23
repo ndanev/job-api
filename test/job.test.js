@@ -37,12 +37,12 @@ describe("GET /api/job", () => {
 describe("Create some jobs", () => {
     it("Create one job", (done) => {
         const jobBody = {
-            "jobTitle": "junior developer",
-            "jobType": "full-time",
+            "title": "junior developer",
+            "type": "full-time",
             "level": "medior",
-            "jobDesc": "some description text text text text text text",
-            "applicationTarget": "vuejs javascript html css",
-            "emailAddress": "company@test.com",
+            "description": "some description text text text text text text",
+            "target": "vuejs javascript html css",
+            "email": "company@test.com",
             "companyName": "companyName",
             "skills": "vuejs javascript",
             "currency": "EUR",
