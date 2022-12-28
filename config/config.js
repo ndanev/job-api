@@ -1,9 +1,8 @@
 require('dotenv').config()
-const _ = require('lodash');
 
 global.gConfig = {
     "app_name": "job-api",
-    "app_desc": process.env.APP_DESC || "restful api server",
+    "app_desc": process.env.APP_DESC || "rest api server",
     "node_port": process.env.PORT || 5001,
     "json_indentation": 4,
     "mongoURI": process.env.MONGO_URI,

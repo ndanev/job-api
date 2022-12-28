@@ -10,7 +10,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-
 app.use(passport.initialize());
 require('./config/passport')(passport);
 
@@ -27,7 +26,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 const port = process.env.PORT || 5001;
 
 
-// module.exports = app.listen(port, () => console.log(`Server started on port ${port}`));
-app.listen(port, () => console.log(`Server started on port ${port}`));
+// module.exports = app.listen(port, () => console.log(`Server started on port http://localhost:${port}`));
+app.listen(port, () => console.log(`Server started on port http://localhost:${port}`));
 
 module.exports = app;
